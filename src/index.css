@@ -1,4 +1,56 @@
+:root {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+
+    --color-primary: #1e90ff;
+    --color-secondary: #ff6347;
+    --color-accent: #32cd32;
+    --color-error: red;
+    --color-disabled: #888;
+}
+
 body {
     background-color: black;
     color: white;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: 600;
+}
+h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+#app {
+
+}
+
+.title {
+    span {
+
+    }
+}
+.file {
+    label {
+
+    }
+    button {
+
+    }
+}
+.tags {
+    .tags__status span {
+
+    }
+
+}
+.export {
+    .export__filename {
+
+    }
+    .export__button {
+
+    }
 }

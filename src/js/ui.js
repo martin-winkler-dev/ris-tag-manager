@@ -74,6 +74,9 @@ export function buildAppUI() {
     const { root, refs } = buildUI([
         {
             tag: "div", // title section container
+            attrs: {
+                class: "title",
+            },
             children: [
                 {
                     tag: "h1",
@@ -87,6 +90,9 @@ export function buildAppUI() {
         },
         {
             tag: "div", // file selection container
+            attrs: {
+                class: "file",
+            },
             children: [
                 {
                     tag: "h2",
@@ -105,6 +111,9 @@ export function buildAppUI() {
         },
         {
             tag: "div", // tag selection container
+            attrs: {
+                class: "tags",
+            },
             children: [
                 {
                     tag: "h2",
@@ -112,26 +121,38 @@ export function buildAppUI() {
                 },
                 {
                     tag: "div", // text container
+                    attrs: {
+                        class: "tags__status",
+                    },
                     children: [
                         {
                             tag: "span",
-                            content: "No file loaded.",
+                            content: "placeholder...",
                         },
                     ],
                     ref: "cont_status",
                 },
                 {
                     tag: "div", // default actions container
+                    attrs: {
+                        class: "tags__defaultActions",
+                    },
                     ref: "cont_defaultActions",
                 },
                 {
                     tag: "div", // unknown tags container
+                    attrs: {
+                        class: "tags__unknown",
+                    },
                     ref: "cont_unknownTags",
                 }
             ],
         },
         {
             tag: "div", // export container
+            attrs: {
+                class: "export",
+            },
             children: [
                 {
                     tag: "h2",
@@ -140,14 +161,17 @@ export function buildAppUI() {
                 {
                     tag: "input",
                     attrs: {
+                        class: "export__filename",
                         type: "text",
-                        id: "fileNameInput",
                         placeholder: "Export filename...",
                     },
                     ref: "input_fileName",
                 },
                 {
                     tag: "button",
+                    attrs: {
+                        class: "export__button",
+                    },
                     content: "Export RIS file...",
                     ref: "btn_exportFile",
                 },

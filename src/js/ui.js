@@ -64,3 +64,14 @@ function buildUI(definition) {
         return element;
     }
 }
+
+export function buildAppUI(appContainer) {
+    const { root, refs } = buildUI([
+        {
+            tag: "h1",
+            content: "RIS File",
+        }
+    ]);
+
+    return { root, refs };
+}

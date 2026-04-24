@@ -73,8 +73,17 @@ function buildUI(definition) {
 export function buildAppUI() {
     const { root, refs } = buildUI([
         {
-            tag: "h1",
-            content: "RIS File",
+            tag: "div", // title section container
+            children: [
+                {
+                    tag: "h1",
+                    content: "RIS File",
+                },
+                {
+                    tag: "span",
+                    content: "desc...",
+                },
+            ],
         },
         {
             tag: "div", // file selection container

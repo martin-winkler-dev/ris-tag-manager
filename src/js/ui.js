@@ -70,13 +70,50 @@ function buildUI(definition) {
     }
 }
 
-export function buildAppUI(appContainer) {
+export function buildAppUI() {
     const { root, refs } = buildUI([
         {
             tag: "h1",
             content: "RIS File",
+            children: [
+                {
+                    tag: "div",
+                    ref: "defaultActionsContainer",
+                },
+            ],
         }
     ]);
+
+    return { root, refs };
+}
+
+export function buildDefaultActionsUI(defaultActions, callback) {
+    if (!Array.isArray(defaultActions)) {
+        throw new Error("defaultActions not an array.");
+    }
+    if (typeof callback !== "function") {
+        throw new Error("callback not a function.");
+    }
+
+    const { root, refs } = buildUI({
+        tag: "div",
+    });
+
+    defaultActions.forEach((action) => {
+        if (!action || typeof action.name !== "string" || typeof action.tag !== "string") {
+            return;
+        }
+
+        const { root: actionButton } = buildUI({
+            tag: "button",
+            content: action.name,
+            on: {
+                click: () => callback(action.tag),
+            },
+        });
+
+        root.appendChild(actionButton);
+    });
 
     return { root, refs };
 }

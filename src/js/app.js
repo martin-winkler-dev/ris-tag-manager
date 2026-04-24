@@ -2,6 +2,10 @@ import { buildAppUI, buildDefaultActionsUI } from "./ui.js";
 import { DEFAULT_ACTIONS } from "./tags.js";
 
 export function startApp(appContainer) {
+    if (!appContainer) {
+        throw new Error("Missing app container.");
+    }
+
 	const state = {
 		loadedFile: null,
 		fileName: "",
@@ -14,8 +18,11 @@ export function startApp(appContainer) {
     const { root: defaultActionsRoot } = buildDefaultActionsUI(DEFAULT_ACTIONS, (tag) => {
         console.log("Action clicked for tag", tag);
     });
+
+    if (!ui.refs.defaultActionsContainer) {
+        throw new Error("Missing defaultActionsContainer ref.");
+    }
     ui.refs.defaultActionsContainer.appendChild(defaultActionsRoot);
-    console.log("defaultActions", defaultActionsRoot);
 
 	wireEvents(ui.refs, state);
 

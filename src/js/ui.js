@@ -56,6 +56,11 @@ function buildUI(definition) {
             element.appendChild(createNode(childDefinition, refs));
         }
 
+        // event listeners
+        for (const [event, handler] of Object.entries(on)) {
+            element.addEventListener(event, handler);
+        }
+
         // add ref to html element
         if (ref && typeof ref === "string") {
             refs[ref] = element;

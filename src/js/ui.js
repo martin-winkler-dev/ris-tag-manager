@@ -75,7 +75,7 @@ export function buildAppUI() {
         {
             tag: "div", // title section container
             attrs: {
-                class: "title",
+                class: "title-container",
             },
             children: [
                 {
@@ -91,7 +91,7 @@ export function buildAppUI() {
         {
             tag: "div", // file selection container
             attrs: {
-                class: "file",
+                class: "file-container",
             },
             children: [
                 {
@@ -112,7 +112,7 @@ export function buildAppUI() {
         {
             tag: "div", // tag selection container
             attrs: {
-                class: "tags",
+                class: "tags-container",
             },
             children: [
                 {
@@ -127,7 +127,7 @@ export function buildAppUI() {
                     children: [
                         {
                             tag: "span",
-                            content: "placeholder...",
+                            content: "placeholder for text...",
                         },
                     ],
                     ref: "cont_status",
@@ -140,18 +140,64 @@ export function buildAppUI() {
                     ref: "cont_defaultActions",
                 },
                 {
-                    tag: "div", // unknown tags container
+                    tag: "div", // tags editor container
                     attrs: {
-                        class: "tags__unknown",
+                        class: "tags__editor",
                     },
-                    ref: "cont_unknownTags",
+                    ref: "cont_tagsEditor",
+                    children: [
+                        {
+                            tag: "div", // keyword example
+                            attrs: {
+                                class: "keyword",
+                            },
+                            children: [
+                                {
+                                    tag: "span",
+                                    attrs: {
+                                        class: "keyword__name",
+                                    },
+                                    content: "KW",
+                                },
+                                {
+                                    tag: "button",
+                                    attrs: {
+                                        class: "keyword__del",
+                                    },
+                                    content: "×",
+                                }
+                            ],
+                        },
+                        {
+                            tag: "div", // keyword example
+                            attrs: {
+                                class: "keyword",
+                            },
+                            children: [
+                                {
+                                    tag: "span",
+                                    attrs: {
+                                        class: "keyword__name",
+                                    },
+                                    content: "Keyword",
+                                },
+                                {
+                                    tag: "button",
+                                    attrs: {
+                                        class: "keyword__del",
+                                    },
+                                    content: "×",
+                                }
+                            ],
+                        },
+                    ],
                 }
             ],
         },
         {
             tag: "div", // export container
             attrs: {
-                class: "export",
+                class: "export-container",
             },
             children: [
                 {

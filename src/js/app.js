@@ -19,10 +19,10 @@ export function startApp(appContainer) {
         console.log("Action clicked for tag", tag);
     });
 
-    if (!ui.refs.defaultActionsContainer) {
+    if (!ui.refs.cont_defaultActions) {
         throw new Error("Missing defaultActionsContainer ref.");
     }
-    ui.refs.defaultActionsContainer.appendChild(defaultActionsRoot);
+    ui.refs.cont_defaultActions.appendChild(defaultActionsRoot);
 
 	wireEvents(ui.refs, state);
 
@@ -30,13 +30,10 @@ export function startApp(appContainer) {
 }
 
 function wireEvents(refs, state) {
-	if (refs.openFileButton) {
-		refs.openFileButton.addEventListener("click", () => {
-			state.hasChanges = true;
-
-			if (refs.statusText) {
-				refs.statusText.textContent = "Open dialog will be implemented next.";
-			}
+	if (refs.btn_openFile) {
+		refs.btn_openFile.addEventListener("click", () => {
+            // reset state
+			// load file
 		});
 	}
 }

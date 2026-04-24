@@ -75,13 +75,75 @@ export function buildAppUI() {
         {
             tag: "h1",
             content: "RIS File",
+        },
+        {
+            tag: "div", // file selection container
             children: [
                 {
-                    tag: "div",
-                    ref: "defaultActionsContainer",
+                    tag: "h2",
+                    content: "1. Load RIS file",
                 },
+                {
+                    tag: "label",
+                    content: "Select a .ris file to load and edit:",
+                },
+                {
+                    tag: "button",
+                    content: "Open RIS file...",
+                    ref: "btn_openFile",
+                }
             ],
-        }
+        },
+        {
+            tag: "div", // tag selection container
+            children: [
+                {
+                    tag: "h2",
+                    content: "2. Delete tags",
+                },
+                {
+                    tag: "div", // text container
+                    children: [
+                        {
+                            tag: "span",
+                            content: "No file loaded.",
+                        },
+                    ],
+                    ref: "cont_status",
+                },
+                {
+                    tag: "div", // default actions container
+                    ref: "cont_defaultActions",
+                },
+                {
+                    tag: "div", // unknown tags container
+                    ref: "cont_unknownTags",
+                }
+            ],
+        },
+        {
+            tag: "div", // export container
+            children: [
+                {
+                    tag: "h2",
+                    content: "3. Select filename and export",
+                },
+                {
+                    tag: "input",
+                    attrs: {
+                        type: "text",
+                        id: "fileNameInput",
+                        placeholder: "Export filename...",
+                    },
+                    ref: "input_fileName",
+                },
+                {
+                    tag: "button",
+                    content: "Export RIS file...",
+                    ref: "btn_exportFile",
+                },
+            ]
+        },
     ]);
 
     return { root, refs };

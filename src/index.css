@@ -1,6 +1,6 @@
 :root {
     font-family: "Segoe UI", "sans-serif";
-    font-size: 16px;
+    font-size: 14px;
 
     --color-primary: #121a26;
     --color-secondary: #0b1018;
@@ -82,7 +82,7 @@ button:disabled {
 
 #app {
     max-width: min(46rem, 80vw);
-    margin: min(3rem, calc((100vh - 90vh) / 2)) auto;
+    margin: 2rem auto;
     display: grid;
     gap: 1rem;
 }
@@ -136,7 +136,6 @@ button:disabled {
     span {
         color: var(--color-text-primary);
         display: block;
-        margin-top: 0.45rem;
         font-size: 0.95rem;
     }
 }

@@ -6,14 +6,13 @@ export function parseFile(fileContent) {
     }
 
     const normalizedContent = fileContent.replace(/\r\n/g, "\n");
-    const paperBlocks = normalizedContent
-        .split(/\n\s*\n+/)
-        .map((block) => block.trim())
-        .filter(Boolean);
+    const lines = normalizedContent.split("\n");
 
     const tags = new Map();
+    let paperCount = 0;
+    let insideRecord = false;
 
-    for (const line of normalizedContent.split("\n")) {
+    for (const line of lines) {
         const match = matchRisTagLine(line);
 
         if (!match) {
@@ -21,12 +20,28 @@ export function parseFile(fileContent) {
         }
 
         const tag = match[1].toUpperCase();
+
+        if (tag === "TY") {
+            insideRecord = true;
+            continue;
+        }
+
+        if (!insideRecord) {
+            continue;
+        }
+
+        if (tag === "ER") {
+            paperCount += 1;
+            insideRecord = false;
+            continue;
+        }
+
         const currentCount = tags.get(tag) ?? 0;
         tags.set(tag, currentCount + 1);
     }
 
     return {
-        paperCount: paperBlocks.length,
+        paperCount,
         uniqueTagCount: tags.size,
         tags,
     };
@@ -41,8 +56,14 @@ export function deleteTag(fileContent, tag) {
     }
 
     const normalizedTag = tag.trim().toUpperCase();
+
+    if (normalizedTag === "TY" || normalizedTag === "ER") {
+        return fileContent;
+    }
+
     const lines = fileContent.replace(/\r\n/g, "\n").split("\n");
     const keptLines = [];
+    let insideRecord = false;
     let skippingCurrentTagBlock = false;
 
     for (const line of lines) {
@@ -50,6 +71,26 @@ export function deleteTag(fileContent, tag) {
 
         if (tagLineMatch) {
             const currentTag = tagLineMatch[1].toUpperCase();
+
+            if (currentTag === "TY") {
+                insideRecord = true;
+                skippingCurrentTagBlock = false;
+                keptLines.push(line);
+                continue;
+            }
+
+            if (currentTag === "ER") {
+                insideRecord = false;
+                skippingCurrentTagBlock = false;
+                keptLines.push(line);
+                continue;
+            }
+
+            if (!insideRecord) {
+                skippingCurrentTagBlock = false;
+                keptLines.push(line);
+                continue;
+            }
 
             if (currentTag === normalizedTag) {
                 skippingCurrentTagBlock = true;

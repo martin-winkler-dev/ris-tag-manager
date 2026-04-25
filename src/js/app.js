@@ -73,12 +73,6 @@ async function openFile(refs, state) {
             handleKeywordDelete(refs, state, tag, event);
         });
     }
-
-    console.log("File loaded", {
-        name: state.loadedFile.fullName,
-        paperCount,
-        uniqueTagCount: tags.size,
-    });
 }
 
 function handleKeywordDelete(refs, state, tag, event) {

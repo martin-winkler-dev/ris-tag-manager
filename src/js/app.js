@@ -25,6 +25,8 @@ export function startApp(appContainer) {
     }
     ui.refs.cont_defaultActions.appendChild(defaultActionsRoot);
 
+    updateUi(ui.refs, state);
+
 	wireEvents(ui.refs, state);
 
 	return { state, ui };
@@ -64,10 +66,7 @@ async function openFile(refs, state) {
     };
     state.hasChanges = false;
 
-    // update filename
-    // update status
-    // update tags
-    //updateUi(refs, state);
+    updateUi(refs, state);
 
     if (refs.cont_tagsEditor) {
         buildKeywordList(refs.cont_tagsEditor, tags, TAG_CONFIG, (tag) => {
@@ -99,9 +98,7 @@ function handleKeywordDelete(refs, state, tag) {
     state.loadedFile.tags = updatedAnalysis.tags;
     state.hasChanges = true;
 
-    if (refs.cont_status) {
-        refs.cont_status.textContent = `Loaded ${updatedAnalysis.paperCount} papers and ${updatedAnalysis.tags.size} unique tags.`;
-    }
+    updateUi(refs, state);
 
     if (refs.cont_tagsEditor) {
         buildKeywordList(refs.cont_tagsEditor, updatedAnalysis.tags, TAG_CONFIG, (nextTag) => {

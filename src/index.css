@@ -10,7 +10,7 @@
     --color-accent2: #2264dc;
     --color-btn-del: #b02821;
     --color-error: #d94841;
-    --color-disabled: #66738a;
+    --color-disabled: #1f2c40;
     --color-text-h: #e6edf7;
     --color-text-primary: #e6edf7;
     --color-text-secundary: #9aacbf;
@@ -145,10 +145,6 @@ button:disabled {
         flex-wrap: wrap;
         gap: 0.5rem;
         margin-bottom: 0.8rem;
-
-        button {
-            background: #1f2c40;
-        }
     }
 
     .tags__editor {

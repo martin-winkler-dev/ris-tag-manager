@@ -288,7 +288,50 @@ export function buildKeywordList(container, tags, tagConfig, deleteCallback) {
 }
 
 export function updateUi(refs, state) {
+    if (!refs || typeof refs !== "object") {
+        throw new Error("Missing refs.");
+    }
+    if (!state || typeof state !== "object") {
+        throw new Error("Missing state.");
+    }
 
+    const loadedFile = state.loadedFile && typeof state.loadedFile === "object" ? state.loadedFile : null;
+    const hasLoadedFile = !!loadedFile;
+    const hasChanges = hasLoadedFile && state.hasChanges === true;
+
+    // btn state - default actions
+    if (refs.cont_defaultActions) {
+        const defaultActionButtons = refs.cont_defaultActions.querySelectorAll("button");
+        defaultActionButtons.forEach((button) => {
+            button.disabled = !hasLoadedFile;
+        });
+    }
+
+    // input state - filename
+    if (refs.input_fileName) {
+        refs.input_fileName.disabled = !hasLoadedFile;
+        refs.input_fileName.value = hasLoadedFile ? String(loadedFile.baseName ?? "") : "";
+    }
+
+    // btn state - export
+    if (refs.btn_exportFile) {
+        refs.btn_exportFile.disabled = !hasChanges;
+    }
+
+    if (refs.cont_status) {
+        if (hasLoadedFile) {
+            const paperCount = Number.isFinite(loadedFile.paperCount) ? loadedFile.paperCount : 0;
+            const uniqueTagCount = loadedFile.tags instanceof Map ? loadedFile.tags.size : 0;
+            refs.cont_status.textContent = `Loaded ${paperCount} papers and ${uniqueTagCount} unique tags.`;
+        } else {
+            refs.cont_status.textContent = "Load a RIS file to view papers and tags.";
+        }
+    }
+
+    // delete all tags if no file loaded (unloaded)
+    if (!hasLoadedFile && refs.cont_tagsEditor) {
+        refs.cont_tagsEditor.replaceChildren();
+    }
 }
 
 export function deleteTagUI(tags, tagName) {

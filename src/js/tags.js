@@ -8,5 +8,5 @@ export const TAG_CONFIG = Object.freeze({
 
 // default action buttons
 export const DEFAULT_ACTIONS = Object.freeze([
-    { name: "Delete all tags", tag: "KW" },
+    { name: "Delete all Keywords (KW)", tag: "KW" },
 ]);

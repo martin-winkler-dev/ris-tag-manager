@@ -17,7 +17,7 @@ export function startApp(appContainer) {
 	appContainer.replaceChildren(ui.root);
 
     const { root: defaultActionsRoot } = buildDefaultActionsUI(DEFAULT_ACTIONS, (tag) => {
-        console.log("Action clicked for tag", tag);
+        handleDefaultActionDelete(ui.refs, state, tag);
     });
 
     if (!ui.refs.cont_defaultActions) {
@@ -68,11 +68,7 @@ async function openFile(refs, state) {
 
     updateUi(refs, state);
 
-    if (refs.cont_tagsEditor) {
-        buildTagList(refs.cont_tagsEditor, tags, TAG_CONFIG, (tag, event) => {
-            handleKeywordDelete(refs, state, tag, event);
-        });
-    }
+    renderTagList(refs, state);
 }
 
 function handleKeywordDelete(refs, state, tag, event) {
@@ -97,7 +93,56 @@ function handleKeywordDelete(refs, state, tag, event) {
     const tagElement = event?.currentTarget?.closest(".tag");
     if (tagElement) {
         tagElement.remove();
+    } else {
+        renderTagList(refs, state);
     }
+}
+
+function handleDefaultActionDelete(refs, state, tag) {
+    if (!state.loadedFile) {
+        return;
+    }
+
+    const normalizedTag = normalizeTag(tag);
+    const allowedTags = new Set(DEFAULT_ACTIONS.map((action) => normalizeTag(action?.tag)));
+
+    if (!allowedTags.has(normalizedTag)) {
+        return;
+    }
+
+    const tagCount = state.loadedFile.tags.get(normalizedTag) ?? 0;
+    if (tagCount === 0) {
+        return;
+    }
+
+    const confirmDelete = confirm(`Are you sure you want to delete all "${normalizedTag}" (${tagCount}) tags?`);
+    if (!confirmDelete) {
+        return;
+    }
+
+    state.loadedFile.currentContent = deleteTag(state.loadedFile.currentContent, normalizedTag);
+
+    const updatedAnalysis = parseFile(state.loadedFile.currentContent);
+    state.loadedFile.paperCount = updatedAnalysis.paperCount;
+    state.loadedFile.tags = updatedAnalysis.tags;
+    state.hasChanges = true;
+
+    updateUi(refs, state);
+    renderTagList(refs, state);
+}
+
+function renderTagList(refs, state) {
+    if (!refs.cont_tagsEditor || !state.loadedFile) {
+        return;
+    }
+
+    buildTagList(refs.cont_tagsEditor, state.loadedFile.tags, TAG_CONFIG, (tag, event) => {
+        handleKeywordDelete(refs, state, tag, event);
+    });
+}
+
+function normalizeTag(tag) {
+    return typeof tag === "string" ? tag.trim().toUpperCase() : "";
 }
 
 function pickFile(allowedExtensions) {

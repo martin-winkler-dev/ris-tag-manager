@@ -145,52 +145,6 @@ export function buildAppUI() {
                         class: "tags__editor",
                     },
                     ref: "cont_tagsEditor",
-                    children: [
-                        {
-                            tag: "div", // keyword example
-                            attrs: {
-                                class: "keyword",
-                            },
-                            children: [
-                                {
-                                    tag: "span",
-                                    attrs: {
-                                        class: "keyword__name",
-                                    },
-                                    content: "KW",
-                                },
-                                {
-                                    tag: "button",
-                                    attrs: {
-                                        class: "keyword__del",
-                                    },
-                                    content: "×",
-                                }
-                            ],
-                        },
-                        {
-                            tag: "div", // keyword example
-                            attrs: {
-                                class: "keyword",
-                            },
-                            children: [
-                                {
-                                    tag: "span",
-                                    attrs: {
-                                        class: "keyword__name",
-                                    },
-                                    content: "Keyword",
-                                },
-                                {
-                                    tag: "button",
-                                    attrs: {
-                                        class: "keyword__del",
-                                    },
-                                    content: "×",
-                                }
-                            ],
-                        },
-                    ],
                 }
             ],
         },
@@ -259,15 +213,50 @@ export function buildDefaultActionsUI(defaultActions, callback) {
     return { root, refs };
 }
 
-export function buildKeywordList(container, tags, deleteCallback) {
+export function buildKeywordList(container, tags, tagConfig, deleteCallback) {
     if (!container) {
         throw new Error("Missing container.");
     }
+    if (!(tags instanceof Map)) {
+        throw new Error("tags not a Map.");
+    }
+    if (typeof deleteCallback !== "function") {
+        throw new Error("deleteCallback not a function.");
+    }
+
     container.replaceChildren();
 
-    const tags_ordered = Array.from(tags.entries()).sort((a, b) => a[0].localeCompare(b[0]));
+    // object order
+    const normalizedTagConfig = tagConfig && typeof tagConfig === "object" ? tagConfig : {};
+    const configOrder = new Map(Object.keys(normalizedTagConfig).map((tag, index) => [tag, index]));
 
-    tags_ordered.forEach(([tag, count]) => {
+    // find display names
+    const displayList = Array.from(tags.entries()).map(([tag, count]) => {
+        const config = normalizedTagConfig[tag];
+        const configuredName = config?.name?.trim() || tag;
+        
+        return {
+            tag,
+            count,
+            tagName: configuredName ?? tag,
+            hasConfiguredName: typeof configuredName === "string",
+        };
+    });
+    
+    // sorting
+    displayList.sort((a, b) => {
+        // named tags -> ordered by config order
+        if (a.hasConfiguredName && b.hasConfiguredName) {
+            return (configOrder.get(a.tag) ?? Number.MAX_SAFE_INTEGER) - (configOrder.get(b.tag) ?? Number.MAX_SAFE_INTEGER);
+        }
+        // named tags first
+        if (a.hasConfiguredName) return -1;
+        if (b.hasConfiguredName) return 1;
+        // order unnamed tags a-z
+        return a.tag.localeCompare(b.tag);
+    });
+
+    displayList.forEach(({ tag, count, tagName }) => {
         const { root: tagUI, refs } = buildUI({
             tag: "div",
             attrs: {
@@ -279,7 +268,7 @@ export function buildKeywordList(container, tags, deleteCallback) {
                     attrs: {
                         class: "keyword__name",
                     },
-                    content: `${tag} (${count})`,
+                    content: `${tagName} (${count})`,
                 },
                 {
                     tag: "button",

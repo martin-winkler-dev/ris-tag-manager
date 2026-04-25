@@ -1,5 +1,5 @@
 import { buildAppUI, buildDefaultActionsUI, buildKeywordList, updateUi, deleteTagUI } from "./ui.js";
-import { DEFAULT_ACTIONS } from "./tags.js";
+import { DEFAULT_ACTIONS, TAG_CONFIG } from "./tags.js";
 import { parseFile, deleteTag } from "./ris.js";
 import { ALLOWED_EXTENSIONS } from "./config.js";
 
@@ -70,7 +70,7 @@ async function openFile(refs, state) {
     //updateUi(refs, state);
 
     if (refs.cont_tagsEditor) {
-        buildKeywordList(refs.cont_tagsEditor, tags, (tag) => {
+        buildKeywordList(refs.cont_tagsEditor, tags, TAG_CONFIG, (tag) => {
             handleKeywordDelete(refs, state, tag);
         });
     }
@@ -104,7 +104,7 @@ function handleKeywordDelete(refs, state, tag) {
     }
 
     if (refs.cont_tagsEditor) {
-        buildKeywordList(refs.cont_tagsEditor, updatedAnalysis.tags, (nextTag) => {
+        buildKeywordList(refs.cont_tagsEditor, updatedAnalysis.tags, TAG_CONFIG, (nextTag) => {
             handleKeywordDelete(refs, state, nextTag);
         });
     }

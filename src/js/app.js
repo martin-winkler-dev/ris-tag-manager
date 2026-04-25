@@ -1,4 +1,4 @@
-import { buildAppUI, buildDefaultActionsUI, buildKeywordList, updateUi, deleteTagUI } from "./ui.js";
+import { buildAppUI, buildDefaultActionsUI, buildTagList, updateUi, deleteTagUI } from "./ui.js";
 import { DEFAULT_ACTIONS, TAG_CONFIG } from "./tags.js";
 import { parseFile, deleteTag } from "./ris.js";
 import { ALLOWED_EXTENSIONS } from "./config.js";
@@ -69,8 +69,8 @@ async function openFile(refs, state) {
     updateUi(refs, state);
 
     if (refs.cont_tagsEditor) {
-        buildKeywordList(refs.cont_tagsEditor, tags, TAG_CONFIG, (tag) => {
-            handleKeywordDelete(refs, state, tag);
+        buildTagList(refs.cont_tagsEditor, tags, TAG_CONFIG, (tag, event) => {
+            handleKeywordDelete(refs, state, tag, event);
         });
     }
 
@@ -81,7 +81,7 @@ async function openFile(refs, state) {
     });
 }
 
-function handleKeywordDelete(refs, state, tag) {
+function handleKeywordDelete(refs, state, tag, event) {
     if (!state.loadedFile) {
         return;
     }
@@ -100,10 +100,9 @@ function handleKeywordDelete(refs, state, tag) {
 
     updateUi(refs, state);
 
-    if (refs.cont_tagsEditor) {
-        buildKeywordList(refs.cont_tagsEditor, updatedAnalysis.tags, TAG_CONFIG, (nextTag) => {
-            handleKeywordDelete(refs, state, nextTag);
-        });
+    const tagElement = event?.currentTarget?.closest(".tag");
+    if (tagElement) {
+        tagElement.remove();
     }
 }
 

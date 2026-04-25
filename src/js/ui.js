@@ -192,6 +192,9 @@ export function buildDefaultActionsUI(defaultActions, callback) {
 
     const { root, refs } = buildUI({
         tag: "div",
+        attrs: {
+            class: "default-actions__container",
+        },
     });
 
     defaultActions.forEach((action) => {
@@ -213,7 +216,7 @@ export function buildDefaultActionsUI(defaultActions, callback) {
     return { root, refs };
 }
 
-export function buildKeywordList(container, tags, tagConfig, deleteCallback) {
+export function buildTagList(container, tags, tagConfig, deleteCallback) {
     if (!container) {
         throw new Error("Missing container.");
     }
@@ -234,12 +237,14 @@ export function buildKeywordList(container, tags, tagConfig, deleteCallback) {
     const displayList = Array.from(tags.entries()).map(([tag, count]) => {
         const config = normalizedTagConfig[tag];
         const configuredName = config?.name?.trim() || tag;
-        
+        const displayClass = typeof config?.display === "string" ? config.display.trim() : "";
+
         return {
             tag,
             count,
             tagName: configuredName ?? tag,
             hasConfiguredName: typeof configuredName === "string",
+            displayClass,
         };
     });
     
@@ -256,11 +261,13 @@ export function buildKeywordList(container, tags, tagConfig, deleteCallback) {
         return a.tag.localeCompare(b.tag);
     });
 
-    displayList.forEach(({ tag, count, tagName }) => {
+    displayList.forEach(({ tag, count, tagName, displayClass }) => {
+        const className = displayClass ? `tag ${displayClass}` : "tag";
+
         const { root: tagUI, refs } = buildUI({
             tag: "div",
             attrs: {
-                class: "tag",
+                class: className,
             },
             children: [
                 {
@@ -277,7 +284,7 @@ export function buildKeywordList(container, tags, tagConfig, deleteCallback) {
                     },
                     content: "×",
                     on: {
-                        click: () => deleteCallback(tag),
+                        click: (event) => deleteCallback(tag, event),
                     },
                 }
             ],

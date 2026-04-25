@@ -329,9 +329,9 @@ export function updateUi(refs, state) {
         if (hasLoadedFile) {
             const paperCount = Number.isFinite(loadedFile.paperCount) ? loadedFile.paperCount : 0;
             const uniqueTagCount = loadedFile.tags instanceof Map ? loadedFile.tags.size : 0;
-            refs.cont_status.textContent = `Loaded ${paperCount} papers and ${uniqueTagCount} unique tags.`;
+            refs.cont_status.innerHTML = `Loaded <strong>${paperCount}</strong> papers and <strong>${uniqueTagCount}</strong> unique tags.`;
         } else {
-            refs.cont_status.textContent = "Load a RIS file to view papers and tags.";
+            refs.cont_status.textContent = "Load a RIS file to view tags.";
         }
     }
 

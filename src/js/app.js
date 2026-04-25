@@ -1,4 +1,4 @@
-import { buildAppUI, buildDefaultActionsUI } from "./ui.js";
+import { buildAppUI, buildDefaultActionsUI, buildKeywordList, updateUi, deleteTagUI } from "./ui.js";
 import { DEFAULT_ACTIONS } from "./tags.js";
 import { parseFile, deleteTag } from "./ris.js";
 import { ALLOWED_EXTENSIONS } from "./config.js";
@@ -67,12 +67,47 @@ async function openFile(refs, state) {
     // update filename
     // update status
     // update tags
+    //updateUi(refs, state);
+
+    if (refs.cont_tagsEditor) {
+        buildKeywordList(refs.cont_tagsEditor, tags, (tag) => {
+            handleKeywordDelete(refs, state, tag);
+        });
+    }
 
     console.log("File loaded", {
         name: state.loadedFile.fullName,
         paperCount,
         uniqueTagCount: tags.size,
     });
+}
+
+function handleKeywordDelete(refs, state, tag) {
+    if (!state.loadedFile) {
+        return;
+    }
+
+    const confirmDelete = confirm(`Are you sure you want to delete all "${tag}" (${state.loadedFile.tags.get(tag)}) tags?`);
+    if (!confirmDelete) {
+        return;
+    }
+
+    state.loadedFile.currentContent = deleteTag(state.loadedFile.currentContent, tag);
+
+    const updatedAnalysis = parseFile(state.loadedFile.currentContent);
+    state.loadedFile.paperCount = updatedAnalysis.paperCount;
+    state.loadedFile.tags = updatedAnalysis.tags;
+    state.hasChanges = true;
+
+    if (refs.cont_status) {
+        refs.cont_status.textContent = `Loaded ${updatedAnalysis.paperCount} papers and ${updatedAnalysis.tags.size} unique tags.`;
+    }
+
+    if (refs.cont_tagsEditor) {
+        buildKeywordList(refs.cont_tagsEditor, updatedAnalysis.tags, (nextTag) => {
+            handleKeywordDelete(refs, state, nextTag);
+        });
+    }
 }
 
 function pickFile(allowedExtensions) {

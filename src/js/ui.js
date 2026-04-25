@@ -258,3 +258,50 @@ export function buildDefaultActionsUI(defaultActions, callback) {
 
     return { root, refs };
 }
+
+export function buildKeywordList(container, tags, deleteCallback) {
+    if (!container) {
+        throw new Error("Missing container.");
+    }
+    container.replaceChildren();
+
+    const tags_ordered = Array.from(tags.entries()).sort((a, b) => a[0].localeCompare(b[0]));
+
+    tags_ordered.forEach(([tag, count]) => {
+        const { root: tagUI, refs } = buildUI({
+            tag: "div",
+            attrs: {
+                class: "keyword",
+            },
+            children: [
+                {
+                    tag: "span",
+                    attrs: {
+                        class: "keyword__name",
+                    },
+                    content: `${tag} (${count})`,
+                },
+                {
+                    tag: "button",
+                    attrs: {
+                        class: "keyword__del",
+                    },
+                    content: "×",
+                    on: {
+                        click: () => deleteCallback(tag),
+                    },
+                }
+            ],
+        });
+
+        container.appendChild(tagUI);
+    });
+}
+
+export function updateUi(refs, state) {
+
+}
+
+export function deleteTagUI(tags, tagName) {
+    tags.tagName.ui.parentElement.removeChild(tags.tagName.ui);
+}

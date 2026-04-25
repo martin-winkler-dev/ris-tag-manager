@@ -1,4 +1,4 @@
-import { buildAppUI, buildDefaultActionsUI, buildTagList, updateUi, deleteTagUI } from "./ui.js";
+import { buildAppUI, buildDefaultActionsUI, buildTagList, updateUi } from "./ui.js";
 import { DEFAULT_ACTIONS, TAG_CONFIG } from "./tags.js";
 import { parseFile, deleteTag } from "./ris.js";
 import { ALLOWED_EXTENSIONS } from "./config.js";
@@ -38,6 +38,18 @@ function wireEvents(refs, state) {
             await openFile(refs, state);
         });
 	}
+
+    if (refs.input_fileName) {
+        refs.input_fileName.addEventListener("input", () => {
+            refs.input_fileName.value = refs.input_fileName.value.replace(/\./g, "_");
+        });
+    }
+
+    if (refs.btn_exportFile) {
+        refs.btn_exportFile.addEventListener("click", () => {
+            handleExportFile(refs, state);
+        });
+    }
 }
 
 async function openFile(refs, state) {
@@ -143,6 +155,39 @@ function renderTagList(refs, state) {
 
 function normalizeTag(tag) {
     return typeof tag === "string" ? tag.trim().toUpperCase() : "";
+}
+
+function handleExportFile(refs, state) {
+    if (!state.loadedFile) {
+        return;
+    }
+
+    const rawName = typeof refs.input_fileName?.value === "string" ? refs.input_fileName.value : "";
+    const baseName = rawName.trim() || String(state.loadedFile.baseName ?? "export");
+    const extension = String(state.loadedFile.extension || "ris").trim().replace(/^\./, "") || "ris";
+    const fileName = `${baseName}.${extension}`;
+    const content = typeof state.loadedFile.currentContent === "string"
+        ? state.loadedFile.currentContent
+        : String(state.loadedFile.originalContent ?? "");
+
+    if (refs.input_fileName) {
+        refs.input_fileName.value = baseName;
+    }
+
+    downloadTextFile(fileName, content);
+}
+
+function downloadTextFile(fileName, textContent) {
+    const blob = new Blob([textContent], { type: "application/x-research-info-systems;charset=utf-8" });
+    const objectUrl = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+
+    anchor.href = objectUrl;
+    anchor.download = fileName;
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    URL.revokeObjectURL(objectUrl);
 }
 
 function pickFile(allowedExtensions) {

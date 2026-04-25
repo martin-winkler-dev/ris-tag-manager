@@ -317,7 +317,6 @@ export function updateUi(refs, state) {
     // input state - filename
     if (refs.input_fileName) {
         refs.input_fileName.disabled = !hasLoadedFile;
-        refs.input_fileName.value = hasLoadedFile ? String(loadedFile.baseName ?? "") : "";
     }
 
     // btn state - export

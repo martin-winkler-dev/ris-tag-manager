@@ -78,6 +78,10 @@ async function openFile(refs, state) {
     };
     state.hasChanges = false;
 
+    if (refs.input_fileName) {
+        refs.input_fileName.value = baseName.replace(/\./g, "_");
+    }
+
     updateUi(refs, state);
 
     renderTagList(refs, state);

@@ -260,20 +260,20 @@ export function buildKeywordList(container, tags, tagConfig, deleteCallback) {
         const { root: tagUI, refs } = buildUI({
             tag: "div",
             attrs: {
-                class: "keyword",
+                class: "tag",
             },
             children: [
                 {
                     tag: "span",
                     attrs: {
-                        class: "keyword__name",
+                        class: "tag__name",
                     },
                     content: `${tagName} (${count})`,
                 },
                 {
                     tag: "button",
                     attrs: {
-                        class: "keyword__del",
+                        class: "tag__del",
                     },
                     content: "×",
                     on: {

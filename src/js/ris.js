@@ -116,7 +116,7 @@ function matchRisTagLine(line) {
     if (typeof line !== "string") {
         return null;
     }
-    
+
     // Only treat true RIS header lines as tags: they must start at column 1.
     // Continuation lines in the abstract often contain "word - text" and are not tags.
     return line.match(/^([A-Z0-9]{2,5})\s*-\s*(.*)$/);

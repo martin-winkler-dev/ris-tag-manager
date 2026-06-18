@@ -8,13 +8,13 @@ export function startApp(appContainer) {
         throw new Error("Missing app container.");
     }
 
-	const state = {
-		loadedFile: null,
-		hasChanges: false,
-	};
+    const state = {
+        loadedFile: null,
+        hasChanges: false,
+    };
 
-	const ui = buildAppUI();
-	appContainer.replaceChildren(ui.root);
+    const ui = buildAppUI();
+    appContainer.replaceChildren(ui.root);
 
     const { root: defaultActionsRoot } = buildDefaultActionsUI(DEFAULT_ACTIONS, (tag) => {
         handleDefaultActionDelete(ui.refs, state, tag);
@@ -27,17 +27,17 @@ export function startApp(appContainer) {
 
     updateUi(ui.refs, state);
 
-	wireEvents(ui.refs, state);
+    wireEvents(ui.refs, state);
 
-	return { state, ui };
+    return { state, ui };
 }
 
 function wireEvents(refs, state) {
-	if (refs.btn_openFile) {
+    if (refs.btn_openFile) {
         refs.btn_openFile.addEventListener("click", async () => {
             await openFile(refs, state);
         });
-	}
+    }
 
     if (refs.input_fileName) {
         refs.input_fileName.addEventListener("input", () => {

@@ -1,27 +1,29 @@
+import { APP_META } from "./meta.js";
+
 // minimal ui builder
 function buildUI(definition) {
-	const refs = {};
+    const refs = {};
 
-	if (Array.isArray(definition)) {
-		const fragment = document.createDocumentFragment();
+    if (Array.isArray(definition)) {
+        const fragment = document.createDocumentFragment();
 
-		for (const childDefinition of definition) {
-			fragment.appendChild(createNode(childDefinition, refs));
-		}
+        for (const childDefinition of definition) {
+            fragment.appendChild(createNode(childDefinition, refs));
+        }
 
-		return { root: fragment, refs };
-	}
+        return { root: fragment, refs };
+    }
 
-	return {
-		root: createNode(definition, refs),
-		refs,
-	};
+    return {
+        root: createNode(definition, refs),
+        refs,
+    };
 
     function createNode(definition, refs) {
         if (!definition || typeof definition !== "object") {
             throw new Error("Definition not an object.");
         }
-        
+
         const {
             tag = "div",
             content = "",
@@ -30,24 +32,24 @@ function buildUI(definition) {
             ref,
             on = {},
         } = definition;
-        
+
         const element = document.createElement(tag);
-        
+
         if (content !== "") {
             element.textContent = String(content);
         }
-        
+
         // attributes
         for (const [name, value] of Object.entries(attrs)) {
             if (value === false || value === null || value === undefined) {
                 continue;
             }
-    
+
             if (value === true) {
                 element.setAttribute(name, "");
                 continue;
             }
-    
+
             element.setAttribute(name, String(value));
         }
 
@@ -65,7 +67,7 @@ function buildUI(definition) {
         if (ref && typeof ref === "string") {
             refs[ref] = element;
         }
-        
+
         return element;
     }
 }
@@ -80,11 +82,15 @@ export function buildAppUI() {
             children: [
                 {
                     tag: "h1",
-                    content: "RIS File",
+                    content: APP_META.appName,
                 },
                 {
                     tag: "span",
-                    content: "desc...",
+                    content: APP_META.description,
+                },
+                {
+                    tag: "span",
+                    content: `${APP_META.author} ◆ ${APP_META.githubProfile} ◆ v${APP_META.version}`,
                 },
             ],
         },
@@ -247,7 +253,7 @@ export function buildTagList(container, tags, tagConfig, deleteCallback) {
             displayClass,
         };
     });
-    
+
     // sorting
     displayList.sort((a, b) => {
         // named tags -> ordered by config order

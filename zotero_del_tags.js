@@ -9,7 +9,7 @@ var items = await Zotero.Items.getAll(Zotero.Libraries.userLibraryID, true, fals
 var count = 0;
 
 for (let item of items) {
-    if (!item.isRegularItem()) continue; 
+    if (!item.isRegularItem()) continue;
     let tags = item.getTags();
     let tagsChanged = false;
 

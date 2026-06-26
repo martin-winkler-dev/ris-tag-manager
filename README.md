@@ -24,7 +24,7 @@ E.g. Zotero treats all keywords from imported RIS files as manual keywords, igno
     * Will NOT affect deleted items.
 
 1. Rename all tags that should be kept to start with "#" (eg "KW" -> "#KW")
-2. Zotero ► `Tool` ► `Dev` ► `Run JavaScript`
+2. Zotero ► `Tools` ► `Developer` ► `Run JavaScript`
 3. Paste code from below.
 4. `run`
 5. Wait for response.

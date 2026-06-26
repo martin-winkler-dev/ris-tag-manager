@@ -18,7 +18,7 @@ const [htmlTemplate, packageJsonText] = await Promise.all([
 ]);
 
 const packageJson = JSON.parse(packageJsonText);
-const version = typeof packageJson.version === "string" ? packageJson.version : "0.0.0";
+const version = typeof packageJson.version === "string" ? packageJson.version : "v0.0.0";
 const projectName = typeof packageJson.name === "string" ? packageJson.name : "project";
 const appName = typeof packageJson.title === "string" ? packageJson.title : "RIS File";
 const description = typeof packageJson.description === "string" ? packageJson.description : "";
@@ -63,7 +63,7 @@ const inlineHtml = htmlTemplate
     .replace(/<script\s+type="module"\s+src="\.\/index\.js"\s*>\s*<\/script>/i, `<script>${jsBundle}</script>`)
     .replace(
         "<body>",
-        `<body>\n<!-- ${escapeHtml(`Built from ${packageJson.name ?? "project"} v${version} on ${buildDate}`)} -->`
+        `<body>\n<!-- ${escapeHtml(`Built from ${packageJson.name ?? "project"} ${version} on ${buildDate}`)} -->`
     );
 
 if (inlineHtml === htmlTemplate) {

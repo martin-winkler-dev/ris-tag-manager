@@ -1,14 +1,14 @@
 {
-    "name": "ris-tag-manager",
+    "name": "ris-tag-sanitizer",
     "private": true,
-    "version": "v1.0.1",
-    "title": "RIS Tag Manager",
+    "version": "v1.0.2",
+    "title": "RIS Tag Sanitizer",
     "description": "Sanitize RIS citation files — remove unwanted metadata tags (e.g. keywords or notes).",
     "author": "Martin Winkler",
-    "homepage": "https://github.com/martin-winkler-dev/ris-tag-manager",
+    "homepage": "https://github.com/martin-winkler-dev/ris-tag-sanitizer",
     "repository": {
         "type": "git",
-        "url": "https://github.com/martin-winkler-dev/ris-tag-manager.git"
+        "url": "https://github.com/martin-winkler-dev/ris-tag-sanitizer.git"
     },
     "type": "module",
     "scripts": {

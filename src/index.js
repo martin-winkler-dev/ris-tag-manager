@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     injectStyles(styles);
     window.appMeta = APP_META;
     window.__APP_META__ = APP_META;
-    document.title = `${APP_META.appName} v${APP_META.version}`;
+    document.title = `${APP_META.appName} ${APP_META.version}`;
 
     const appContainer = document.getElementById("app");
 

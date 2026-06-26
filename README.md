@@ -1,4 +1,4 @@
-# RIS Tag Manager
+# RIS Tag Sanitizer
 
 A **browser-based RIS citation files sanitizer** — remove unwanted metadata tags.
 
@@ -7,8 +7,8 @@ This tool loads a `.ris` file, shows all tags, and lets you delete selected tags
 ## How to Use
 
 1. Open or Download
-    * 🚀 **[Open Web-App↗](https://martin-winkler-dev.github.io/ris-tag-manager/)**.
-    * 💾 **[Download latest](https://github.com/martin-winkler-dev/ris-tag-manager/releases/latest/download/index.html)** *(from [release](https://github.com/martin-winkler-dev/ris-tag-manager/releases/latest))* and open `index.html` in a browser.
+    * 🚀 **[Open Web-App↗](https://martin-winkler-dev.github.io/ris-tag-sanitizer/)**.
+    * 💾 **[Download latest](https://github.com/martin-winkler-dev/ris-tag-sanitizer/releases/latest/download/index.html)** *(from [release](https://github.com/martin-winkler-dev/ris-tag-sanitizer/releases/latest))* and open `index.html` in a browser.
 3. Click **Open RIS file** and select a `.ris` file.
 4. Delete unwanted tags.
 5. Select an export filename and click **Export RIS file**.

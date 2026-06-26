@@ -1,14 +1,14 @@
 {
-    "name": "science-ris-cleanup",
+    "name": "ris-tag-manager",
     "private": true,
     "version": "1.0.0",
     "title": "RIS Tag Manager",
     "description": "Clean up RIS files; manage all tags, expecially keywords.",
     "author": "Martin Winkler",
-    "homepage": "https://github.com/martin-winkler/science-ris-cleanup",
+    "homepage": "https://github.com/martin-winkler/ris-tag-manager",
     "repository": {
         "type": "git",
-        "url": "https://github.com/martin-winkler/science-ris-cleanup.git"
+        "url": "https://github.com/martin-winkler/ris-tag-manager.git"
     },
     "type": "module",
     "scripts": {

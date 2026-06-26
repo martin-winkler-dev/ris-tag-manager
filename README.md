@@ -1,14 +1,14 @@
 # RIS Tag Manager
 
-A browser-based RIS citation files sanitizer — remove unwanted metadata tags.
+A **browser-based RIS citation files sanitizer** — remove unwanted metadata tags.
 
 This tool loads a `.ris` file, shows all tags, and lets you delete selected tags before exporting the sanitized file.
 
 ## How to Use
 
 1. Open or Download
-    * [Open as Web-App](https://martin-winkler-dev.github.io/ris-tag-manager/).
-    * [Download Latest Release (download)](https://github.com/martin-winkler-dev/ris-tag-manager/releases/latest/download/index.html) ([Release](https://github.com/martin-winkler-dev/ris-tag-manager/releases/latest)) and open `index.html` in a browser.
+    * 🚀 **[Open Web-App↗](https://martin-winkler-dev.github.io/ris-tag-manager/)**.
+    * 💾 **[Download latest](https://github.com/martin-winkler-dev/ris-tag-manager/releases/latest/download/index.html)** *(from [release](https://github.com/martin-winkler-dev/ris-tag-manager/releases/latest))* and open `index.html` in a browser.
 3. Click **Open RIS file** and select a `.ris` file.
 4. Delete unwanted tags.
 5. Select an export filename and click **Export RIS file**.
@@ -24,25 +24,32 @@ E.g. Zotero treats all keywords from imported RIS files as manual keywords, igno
     * Will NOT delete: '#tag'
     * Will NOT affect deleted items.
 
-1. Rename all tags that should be kept to start with "#" (eg "KW" ➩ "#KW")
+1. Rename all tags that should be kept to start with "#" (e.g. "KW" ➩ "#KW")
 2. Zotero ► `Tools` ► `Developer` ► `Run JavaScript`
 3. Paste code from below.
 4. `run`
-5. Wait for response.
+5. Wait for completion.
 
 ```js
+// === START ===
+// Get all items in Zotero library (asArray=true, includeDeleted=false)
 var items = await Zotero.Items.getAll(Zotero.Libraries.userLibraryID, true, false);
 var count = 0;
 
+// Iterate through all items
 for (let item of items) {
-    if (!item.isRegularItem() || item.deleted) continue;
+    // Skip non-regular items (notes, attachments...)
+    if (!item.isRegularItem()) continue;
     
+    // Get all tags for each item
     let tags = item.getTags();
     let tagsChanged = false;
 
+    // Iterate through all tags
     for (let tagObj of tags) {
         let tagName = tagObj.tag;
         
+        // Remove tag if it doesn't start with '#'
         if (!tagName.trim().startsWith('#')) {
             item.removeTag(tagName);
             tagsChanged = true;
@@ -50,11 +57,15 @@ for (let item of items) {
         }
     }
     
+    // Save changes if any tags were removed
     if (tagsChanged) {
         item.saveTx();
     }
 }
-return count + " tags deleted.";
+
+// Print final count of deleted tags
+return 'Finished: ' + count + ' tags deleted.';
+// === END ===
 ```
 
 ## Development

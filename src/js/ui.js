@@ -89,8 +89,38 @@ export function buildAppUI() {
                     content: APP_META.description,
                 },
                 {
-                    tag: "span",
-                    content: `${APP_META.author} ◆ ${APP_META.githubProfile} ◆ v${APP_META.version}`,
+                    tag: "div",
+                    attrs: {
+                        class: "origin",
+                    },
+                    children: [
+                        {
+                            tag: "span",
+                            content: APP_META.author,
+                        },
+                        {
+                            tag: "span",
+                            content: "◆",
+                        },
+                        {
+                            tag: "a",
+                            attrs: {
+                                href: APP_META.githubProfile,
+                                target: "_blank",
+                                rel: "noopener noreferrer",
+                                class: "meta-link",
+                            },
+                            content: new URL(APP_META.githubProfile).hostname + new URL(APP_META.githubProfile).pathname,
+                        },
+                        {
+                            tag: "span",
+                            content: "◆",
+                        },
+                        {
+                            tag: "span",
+                            content: APP_META.version,
+                        },
+                    ],
                 },
             ],
         },

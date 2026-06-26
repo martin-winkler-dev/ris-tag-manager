@@ -1,13 +1,14 @@
 # RIS Tag Manager
 
-A browser-based RIS file tag manager for deleting unwanted tags, especially keywords.
+A browser-based RIS citation files sanitizer — remove unwanted metadata tags.
 
-This tool loads a `.ris` file, shows all tags, and lets you delete selected tags before exporting the cleaned file.
+This tool loads a `.ris` file, shows all tags, and lets you delete selected tags before exporting the sanitized file.
 
 ## How to Use
 
-1. Download `build/index.html`.
-2. Open `index.html` in a browser.
+1. Open or Download
+    * [Open as Web-App](https://martin-winkler-dev.github.io/ris-tag-manager/).
+    * [Download Latest Release (download)](https://github.com/martin-winkler-dev/ris-tag-manager/releases/latest/download/index.html) ([Release](https://github.com/martin-winkler-dev/ris-tag-manager/releases/latest)) and open `index.html` in a browser.
 3. Click **Open RIS file** and select a `.ris` file.
 4. Delete unwanted tags.
 5. Select an export filename and click **Export RIS file**.
@@ -23,13 +24,13 @@ E.g. Zotero treats all keywords from imported RIS files as manual keywords, igno
     * Will NOT delete: '#tag'
     * Will NOT affect deleted items.
 
-1. Rename all tags that should be kept to start with "#" (eg "KW" -> "#KW")
+1. Rename all tags that should be kept to start with "#" (eg "KW" ➩ "#KW")
 2. Zotero ► `Tools` ► `Developer` ► `Run JavaScript`
 3. Paste code from below.
 4. `run`
 5. Wait for response.
 
-```
+```js
 var items = await Zotero.Items.getAll(Zotero.Libraries.userLibraryID, true, false);
 var count = 0;
 
@@ -69,7 +70,7 @@ bun run build
 
 ### Node.js
 
-```
+```bash
 npm install
 node build.mjs
 ```

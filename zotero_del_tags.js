@@ -9,20 +9,23 @@ var items = await Zotero.Items.getAll(Zotero.Libraries.userLibraryID, true, fals
 var count = 0;
 
 for (let item of items) {
-    if (!item.isRegularItem()) continue;
+    if (!item.isRegularItem() || item.deleted) continue;
+    
     let tags = item.getTags();
     let tagsChanged = false;
 
-    for (let i = tags.length - 1; i >= 0; i--) {
-        let tag = tags[i].tag;
-        if (!tag.startsWith('#')) {
-            item.removeTag(tag);
+    for (let tagObj of tags) {
+        let tagName = tagObj.tag;
+        
+        if (!tagName.trim().startsWith('#')) {
+            item.removeTag(tagName);
             tagsChanged = true;
             count++;
         }
     }
+    
     if (tagsChanged) {
-        await item.saveTx();
+        item.saveTx();
     }
 }
 return count + " tags deleted.";

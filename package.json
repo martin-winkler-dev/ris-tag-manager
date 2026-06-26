@@ -1,7 +1,7 @@
 {
     "name": "ris-tag-manager",
     "private": true,
-    "version": "1.0.0",
+    "version": "v1.0.0",
     "title": "RIS Tag Manager",
     "description": "Clean up RIS files; manage all tags, expecially keywords.",
     "author": "Martin Winkler",
